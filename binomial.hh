@@ -1,6 +1,7 @@
 #include <iostream>
 #include <map>
 #include <math.h>
+#include "Graph.h"
 
 /**
  * @brief Dado un grafo, y una probabilidad, devuelve un grafo con el numero de aristas igual o menor al original en función de p.
