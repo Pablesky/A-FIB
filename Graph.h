@@ -10,6 +10,7 @@ public:
     Graph();
     Graph(int n);
     ~Graph();
+    void add_edge(int v, int u);
 
     int num_vertices();
     int num_edges();
