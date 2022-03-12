@@ -61,11 +61,15 @@ void Graph::read() {
         int v, u;
         cin >> v >> u;
 
-        this->graph[v].push_back(u);
-        this->graph[u].push_back(v);
+        add_edge(v,u);
+        add_edge(u,v);
     }
 
     cout << "GRAPH READ CORRECTLY" << endl;
+}
+
+void Graph::add_edge(int v, int u) {
+    this->graph[v].push_back(u);
 }
 
 void Graph::write() {
