@@ -1,6 +1,7 @@
 #include "Graph.h"
 using namespace std;
 
+/*
 int main() {
 
     int n;
@@ -20,4 +21,22 @@ int main() {
         else cout << "CC : " << i << " is NOT complex" << endl;
     }
 
+}
+*/
+
+int main() {
+
+    int n;
+    cout << "Introduce numero arestas" << endl;
+    cin >> n;
+
+    Graph G(n);
+    G.read();
+    G.write();
+    G.delete_edge(1, 2);
+    G.write();
+    G.delete_vertex(3);
+    G.write();
+    cout << G.exist_edge(0,4) << endl;
+    cout << G.exist_edge(3,2) << endl;
 }

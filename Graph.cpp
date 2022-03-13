@@ -206,13 +206,30 @@ bool Graph::is_unicyclic(const vector<pair<bool,vector<int> >>& CC_graph) {
 }
 
 void Graph::delete_vertex(int u) {
+    for (int i = 0, size = this->graph.size(); i < size; ++i) {
+        if (i != u) {
+            for (int j = 0; j < size; ++j) {
+                delete_edge(j, u);
+            }
+        }
+    }
 
+    this->graph[u] = vector<int>(1, -1);
 }
 
 void Graph::delete_edge(int u, int v) {
-    
+    auto it1 = find(this->graph[u].begin(), this->graph[u].end(), v);
+    auto it2 = find(this->graph[v].begin(), this->graph[v].end(), u);
+    if (it1 != this->graph[u].end() && it2 != this->graph[v].end()) {
+        this->graph[u].erase(it1);
+        this->graph[v].erase(it2);
+    }
+    --this->m;
 }
 
 bool Graph::exist_edge(int u, int v) {
-    
+    auto it1 = find(this->graph[u].begin(), this->graph[u].end(), v);
+    auto it2 = find(this->graph[v].begin(), this->graph[v].end(), u);
+
+    return it1 != this->graph[u].end() && it2 != this->graph[v].end();
 }
