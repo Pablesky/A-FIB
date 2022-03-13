@@ -29,7 +29,8 @@ public:
     void write_CCs();
 
     bool exist_edge(int u, int v);
-
+    bool exist_vertex(int u);
+    
 private:
     int n, m;
     vector< vector<int> > graph;

@@ -1,4 +1,5 @@
 #include "Graph.h"
+#include "percolacion.hh"
 using namespace std;
 
 /*
@@ -33,10 +34,7 @@ int main() {
     Graph G(n);
     G.read();
     G.write();
-    G.delete_edge(1, 2);
-    G.write();
-    G.delete_vertex(3);
-    G.write();
-    cout << G.exist_edge(0,4) << endl;
-    cout << G.exist_edge(3,2) << endl;
+
+    Graph newGraf = percolationVertex(G, 0.5);
+    newGraf.write();
 }
