@@ -28,6 +28,11 @@ int Graph::num_cc() {
 void Graph::get_connected_components() {
     this->visited = vector<bool>(this->n, false);
 
+    // do not go through deleted nodes
+    for (int v = 0; v < this->n; ++v) {
+        if (graph[v].size() == 1 and graph[v][0] == -1) this->visited[v] = true;
+    }
+
     for (int v = 0; v < this->n; ++v) {
         if (not this->visited[v]) {
 
