@@ -8,7 +8,6 @@ Graph::Graph(int n) {
     this->visited = vector<bool>(n, false);
     this->n = n;
     this->connected_components = 0;
-    this->ordered = false;
 }
 
 Graph::Graph(const Graph& g) {
@@ -16,7 +15,6 @@ Graph::Graph(const Graph& g) {
     this->visited = g.visited;
     this->n = g.n;
     this->connected_components = g.connected_components;
-    this->ordered = g.ordered;
 }
 
 Graph::~Graph(){
@@ -86,7 +84,6 @@ void Graph::add_edge(int v, int u) {
     if (exist_vertex(u) && exist_vertex(v) && !exist_edge(v, u)) {
         this->graph[v].push_back(u);
     }
-    this->ordered = false;
 }
 
 void Graph::write() {
@@ -230,8 +227,8 @@ void Graph::delete_vertex(int u) {
 //O(n)
 void Graph::delete_edge(int u, int v) {
     if (exist_vertex(u) && exist_vertex(v)) {
-        auto it1 = find(this->graph[u].begin(), this->graph[u].end(), v); //O(n)
-        auto it2 = find(this->graph[v].begin(), this->graph[v].end(), u); //O(log n)
+        auto it1 = binary_search(this->graph[u].begin(), this->graph[u].end(), v); //O(n)
+        auto it2 = binary_search(this->graph[v].begin(), this->graph[v].end(), u); //O(n)
         if (it1 != this->graph[u].end() && it2 != this->graph[v].end()) {
             this->graph[u].erase(it1); //O(n)
             this->graph[v].erase(it2); //O(n)

@@ -33,7 +33,6 @@ public:
     
 private:
     int n, m;
-    bool ordered;
     vector< vector<int> > graph;
     vector< vector< pair<bool,vector<int> > > > CC_graphs;
     vector<bool> visited;
