@@ -10,6 +10,7 @@ class Graph {
 public:
     Graph();
     Graph(int n);
+    Graph(const Graph& g);
     ~Graph();
     void add_edge(int v, int u);
 

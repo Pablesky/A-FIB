@@ -10,6 +10,13 @@ Graph::Graph(int n) {
     this->connected_components = 0;
 }
 
+Graph::Graph(const Graph& g) {
+    this->graph = g.graph;
+    this->visited = g.visited;
+    this->n = g.n;
+    this->connected_components = g.connected_components;
+}
+
 Graph::~Graph(){
 }
 
