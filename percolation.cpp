@@ -9,7 +9,6 @@ Graph percolationVertex(Graph& grafo, const double probabilidad) {
     int numVertices = grafo.num_vertices();
     double random;
     for (int i = 0; i < numVertices; ++i) {
-        cout << "estoy en la it " << i << endl;
         random = (double)rand() / (double)RAND_MAX;
         if (random > probabilidad) {
             newGraph.delete_vertex(i);

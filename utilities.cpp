@@ -1,4 +1,5 @@
-#include 'utilities.h'
+#include "utilities.h"
+
 using namespace std;
 
 int binarySearch(const vector<int>& node, int left, int right, int v) {

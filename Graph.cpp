@@ -32,6 +32,12 @@ int Graph::num_cc() {
     return connected_components;
 }
 
+void Graph::sortGraph() {
+    for (int i = 0, size = this->graph.size(); i < size; ++i) {
+        sort(this->graph[i].begin(), this->graph[i].end());
+    }
+}
+
 void Graph::get_connected_components() {
     this->visited = vector<bool>(this->n, false);
 
@@ -227,8 +233,8 @@ void Graph::delete_vertex(int u) {
 //O(n)
 void Graph::delete_edge(int u, int v) {
     if (exist_vertex(u) && exist_vertex(v)) {
-        int indexVenU = binarySearch(this->graph[u], 0, this->graph[u].size(), v);
-        int indexUenV = binarySearch(this->graph[v], 0, this->graph[v].size(), u);
+        int indexVenU = binarySearch(this->graph[u], 0, this->graph[u].size() - 1, v);
+        int indexUenV = binarySearch(this->graph[v], 0, this->graph[v].size() - 1, u);
 
         if (indexUenV != -1 && indexVenU != -1) {
             this->graph[v][indexUenV] = -1;
@@ -240,8 +246,8 @@ void Graph::delete_edge(int u, int v) {
 //O(n)
 bool Graph::exist_edge(int u, int v) {
     if (exist_vertex(u) && exist_vertex(v)) {
-        int indexVenU = binarySearch(this->graph[u], 0, this->graph[u].size(), v);
-        int indexUenV = binarySearch(this->graph[v], 0, this->graph[v].size(), u);
+        int indexVenU = binarySearch(this->graph[u], 0, this->graph[u].size() - 1, v);
+        int indexUenV = binarySearch(this->graph[v], 0, this->graph[v].size() - 1, u);
 
         return indexVenU != -1 && indexUenV != -1;
     }

@@ -3,7 +3,7 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
-#include "utilites.h"
+#include "utilities.h"
 
 using namespace std;
 
@@ -17,6 +17,8 @@ public:
 
     void delete_vertex(int u);
     void delete_edge(int v, int u);
+
+    void sortGraph();
 
     int num_vertices();
     int num_edges();

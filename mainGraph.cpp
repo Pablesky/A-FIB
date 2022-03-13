@@ -32,10 +32,14 @@ int main() {
     cin >> n >> prob;
 
     Graph g = binomial_random_graph(n, prob);
-    g.write();
+    //g.write();
 
+    g.sortGraph();
+    //g.write();
+    cout << "listo" << endl;
     cin >> prob;
     Graph pepito = percolationVertex(g, prob);
 
-    pepito.write();
+    //pepito.write();
+    cout << "listo1" << endl;
 }
