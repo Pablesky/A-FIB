@@ -227,23 +227,23 @@ void Graph::delete_vertex(int u) {
 //O(n)
 void Graph::delete_edge(int u, int v) {
     if (exist_vertex(u) && exist_vertex(v)) {
-        auto it1 = binary_search(this->graph[u].begin(), this->graph[u].end(), v); //O(n)
-        auto it2 = binary_search(this->graph[v].begin(), this->graph[v].end(), u); //O(n)
-        if (it1 != this->graph[u].end() && it2 != this->graph[v].end()) {
-            this->graph[u].erase(it1); //O(n)
-            this->graph[v].erase(it2); //O(n)
+        int indexVenU = binarySearch(this->graph[u], 0, this->graph[u].size(), v);
+        int indexUenV = binarySearch(this->graph[v], 0, this->graph[v].size(), u);
+
+        if (indexUenV != -1 && indexVenU != -1) {
+            this->graph[v][indexUenV] = -1;
+            this->graph[u][indexVenU] = -1;
         }
-        --this->m;
     }
 }
 
 //O(n)
 bool Graph::exist_edge(int u, int v) {
     if (exist_vertex(u) && exist_vertex(v)) {
-        auto it1 = find(this->graph[u].begin(), this->graph[u].end(), v);
-        auto it2 = find(this->graph[v].begin(), this->graph[v].end(), u);
+        int indexVenU = binarySearch(this->graph[u], 0, this->graph[u].size(), v);
+        int indexUenV = binarySearch(this->graph[v], 0, this->graph[v].size(), u);
 
-        return it1 != this->graph[u].end() && it2 != this->graph[v].end();
+        return indexVenU != -1 && indexUenV != -1;
     }
     return this;
 }
