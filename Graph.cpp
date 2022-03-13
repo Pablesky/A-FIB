@@ -204,3 +204,15 @@ bool Graph::is_unicyclic(const vector<pair<bool,vector<int> >>& CC_graph) {
 
     return cycle_n == 1;
 }
+
+void Graph::delete_vertex(int u) {
+
+}
+
+void Graph::delete_edge(int u, int v) {
+    
+}
+
+bool Graph::exist_edge(int u, int v) {
+    
+}

@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <vector>
+#include <algorithm>
 
 using namespace std;
 
@@ -11,6 +12,9 @@ public:
     Graph(int n);
     ~Graph();
     void add_edge(int v, int u);
+
+    void delete_vertex(int u);
+    void delete_edge(int v, int u);
 
     int num_vertices();
     int num_edges();
@@ -22,6 +26,8 @@ public:
     void read();
     void write();
     void write_CCs();
+
+    bool exist_edge(int u, int v);
 
 private:
     int n, m;

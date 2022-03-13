@@ -11,7 +11,7 @@ Graph binomial_random_graph(Graph& G, float p) {
             // if this random number is lower o equal than the
             // probability setted then the edge is added to 
             // the new graph
-            if (exist_edge(i, j)) {
+            if (G.exist_edge(i,j)) {
                 float r = (float) rand() / RAND_MAX;
                 if (r <= p)
                     G2.add_edge(i, j);
