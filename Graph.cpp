@@ -8,6 +8,7 @@ Graph::Graph(int n) {
     this->visited = vector<bool>(n, false);
     this->n = n;
     this->connected_components = 0;
+    this->ordered = false;
 }
 
 Graph::Graph(const Graph& g) {
@@ -15,6 +16,7 @@ Graph::Graph(const Graph& g) {
     this->visited = g.visited;
     this->n = g.n;
     this->connected_components = g.connected_components;
+    this->ordered = g.ordered;
 }
 
 Graph::~Graph(){
@@ -81,9 +83,10 @@ void Graph::read() {
 }
 
 void Graph::add_edge(int v, int u) {
-    if (exist_vertex(u) && exist_vertex(v)) {
+    if (exist_vertex(u) && exist_vertex(v) && !exist_edge(v, u)) {
         this->graph[v].push_back(u);
     }
+    this->ordered = false;
 }
 
 void Graph::write() {
@@ -219,32 +222,25 @@ bool Graph::is_unicyclic(const vector<pair<bool,vector<int> >>& CC_graph) {
     return cycle_n == 1;
 }
 
+//O(n²)
 void Graph::delete_vertex(int u) {
-    if (exist_vertex(u)) {
-        for (int i = 0, size = this->graph.size(); i < size; ++i) {
-            if (i != u) {
-                for (int j = 0; j < size; ++j) {
-                    delete_edge(j, u);
-                }
-            }
-        }
-
-        this->graph[u] = vector<int>(1, -1);
-    }
+    if (exist_vertex(u)) this->graph[u] = vector<int>(1, -1);
 }
 
+//O(n)
 void Graph::delete_edge(int u, int v) {
     if (exist_vertex(u) && exist_vertex(v)) {
-        auto it1 = find(this->graph[u].begin(), this->graph[u].end(), v);
-        auto it2 = find(this->graph[v].begin(), this->graph[v].end(), u);
+        auto it1 = find(this->graph[u].begin(), this->graph[u].end(), v); //O(n)
+        auto it2 = find(this->graph[v].begin(), this->graph[v].end(), u); //O(log n)
         if (it1 != this->graph[u].end() && it2 != this->graph[v].end()) {
-            this->graph[u].erase(it1);
-            this->graph[v].erase(it2);
+            this->graph[u].erase(it1); //O(n)
+            this->graph[v].erase(it2); //O(n)
         }
         --this->m;
     }
 }
 
+//O(n)
 bool Graph::exist_edge(int u, int v) {
     if (exist_vertex(u) && exist_vertex(v)) {
         auto it1 = find(this->graph[u].begin(), this->graph[u].end(), v);
@@ -255,6 +251,7 @@ bool Graph::exist_edge(int u, int v) {
     return this;
 }
 
+//O(1)
 bool Graph::exist_vertex(int u) {
     return !(this->graph[u].size() == 1 && graph[u][0] == -1) && (u < this->graph.size() && u >= 0);
 }

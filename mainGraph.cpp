@@ -1,5 +1,6 @@
 #include "Graph.h"
 #include "percolacion.hh"
+#include "binomial.hh"
 using namespace std;
 
 /*
@@ -26,15 +27,15 @@ int main() {
 */
 
 int main() {
-
     int n;
-    cout << "Introduce numero arestas" << endl;
-    cin >> n;
+    float prob;
+    cin >> n >> prob;
 
-    Graph G(n);
-    G.read();
-    G.write();
+    Graph g = binomial_random_graph(n, prob);
+    g.write();
 
-    Graph newGraf = percolationAresta(G, 0.01);
-    newGraf.write();
+    cin >> prob;
+    Graph pepito = percolationVertex(g, prob);
+
+    pepito.write();
 }
