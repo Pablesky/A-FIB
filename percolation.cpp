@@ -1,9 +1,9 @@
 #include "percolacion.hh"
 
-Grafo percolationVertex(const Grafo& grafo, const float probabilidad) {
-    return Grafo(10, Fila(10,0));
+Graph percolationVertex(const Graph& grafo, const float probabilidad) {
+    return Graph();
 }
 
-Grafo percolationAresta(const Grafo& grafo, const float probabilidad) {
-    return Grafo(10, Fila(10,0));
+Graph percolationAresta(const Graph& grafo, const float probabilidad) {
+    return Graph();
 }
