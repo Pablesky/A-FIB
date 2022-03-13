@@ -35,6 +35,6 @@ int main() {
     G.read();
     G.write();
 
-    Graph newGraf = percolationVertex(G, 0.5);
+    Graph newGraf = percolationAresta(G, 0.01);
     newGraf.write();
 }
