@@ -90,6 +90,7 @@ void Graph::add_edge(int v, int u) {
     if (exist_vertex(u) && exist_vertex(v) && !exist_edge(v, u)) {
         this->graph[v].push_back(u);
     }
+    ++this->m;
 }
 
 void Graph::write() {
@@ -97,7 +98,7 @@ void Graph::write() {
     for (int i = 0; i < n; ++i) {
         cout << "VERTEX " << i << ": ";
         for (int j = 0; j < this->graph[i].size(); ++j) {
-            cout << this->graph[i][j] << ' ';
+            if (exist_vertex(i) &&  exist_vertex(graph[i][j])) cout << this->graph[i][j] << ' ';
         }
         cout << endl;
     }
@@ -257,4 +258,30 @@ bool Graph::exist_edge(int u, int v) {
 //O(1)
 bool Graph::exist_vertex(int u) {
     return !(this->graph[u].size() == 1 && graph[u][0] == -1) && (u < this->graph.size() && u >= 0);
+}
+
+void Graph::writeOutput() {
+    cout << this->graph.size() << endl;
+    for (int i = 0, size = this->graph.size(); i < size; ++i) {
+        for (int j = 0, size = this->graph[i].size(); j < size; ++j) {
+            cout << this->graph[i][j] << ' ';
+        }
+        cout << endl;
+    }
+}
+
+void Graph::readOutput() {
+    string str;
+    int num;
+    getline(cin, str);
+    for (int i = 0; i < n; ++i) {
+        if (getline(cin, str)) {
+            istringstream sstr(str);
+            int n;
+            while (sstr >> n) {
+                add_edge(i, n);
+            }
+        }
+    }
+
 }

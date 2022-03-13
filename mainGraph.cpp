@@ -28,18 +28,35 @@ int main() {
 
 int main() {
     int n;
-    float prob;
-    cin >> n >> prob;
+    cin >> n;
 
-    Graph g = binomial_random_graph(n, prob);
-    //g.write();
+    Graph g(n);
 
-    g.sortGraph();
-    //g.write();
-    cout << "listo" << endl;
-    cin >> prob;
-    Graph pepito = percolationVertex(g, prob);
+    g.readOutput();
+    g.write();
 
-    //pepito.write();
-    cout << "listo1" << endl;
+    cout << "Vacio" << endl;
+    Graph g2 = percolationVertex(g, 0.0);
+    g2.write();
+
+    cout << "Lleno" << endl;
+    g2 = percolationVertex(g, 1.0);
+    g2.write();
+
+    cout << "Mitad" << endl;
+    g2 = percolationVertex(g, 0.5);
+    g2.write();
+
+    cout << "Vacio" << endl;
+    g2 = percolationAresta(g, 0.0);
+    g2.write();
+
+    cout << "Lleno" << endl;
+    g2 = percolationAresta(g, 1.0);
+    g2.write();
+
+    cout << "Mitad" << endl;
+    g2 = percolationAresta(g, 0.5);
+    g2.write();
+    
 }

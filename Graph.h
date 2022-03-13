@@ -3,6 +3,7 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
+#include <sstream>
 #include "utilities.h"
 
 using namespace std;
@@ -30,6 +31,9 @@ public:
     void read();
     void write();
     void write_CCs();
+
+    void writeOutput();
+    void readOutput();
 
     bool exist_edge(int u, int v);
     bool exist_vertex(int u);

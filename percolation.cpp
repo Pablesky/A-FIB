@@ -28,7 +28,6 @@ Graph percolationAresta(Graph& grafo, const double probabilidad) {
         for (int j = i + 1; j < numVertices; ++j) {
             if (grafo.exist_edge(i, j)) {
                 random = (double)rand() / (double)RAND_MAX;
-                cout << random << endl;
                 if (random > probabilidad) {
                     newGraph.delete_edge(i, j);
                 }
