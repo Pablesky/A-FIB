@@ -40,12 +40,14 @@ void Graph::sortGraph() {
 
 void Graph::get_connected_components() {
     this->visited = vector<bool>(this->n, false);
-
+    this->CC_graphs.clear();
+    this->connected_components = 0;
     for (int v = 0; v < this->n; ++v) {
-        if (not this->visited[v] and exist_vertex(v)) {
-
+        if (exist_vertex(v) and not this->visited[v]) {
+            //cout << "GETTING " << v << " CC" << endl;
             vector<bool> visited_in_dfs(this->n, false);
             dfs_util(v, visited_in_dfs);
+            //cout << "CC calculation DONE" << endl;
 
             vector<pair<bool,vector<int> > > CC_graph(n);
 
@@ -85,7 +87,6 @@ void Graph::add_edge(int v, int u) {
     if (exist_vertex(u) && exist_vertex(v) && !exist_edge(v, u)) {
         this->graph[v].push_back(u);
     }
-    ++this->m;
 }
 
 void Graph::write() {
@@ -109,7 +110,10 @@ void Graph::write_CCs() {
             if (this->CC_graphs[i][j].first) {
                 cout << "NODE: " << j << " EDGES: ";
                 for (int k = 0; k < this->CC_graphs[i][j].second.size(); ++k) {
-                    cout << this->CC_graphs[i][j].second[k] << ' ';
+                    if (exist_vertex(j) &&  exist_vertex(this->CC_graphs[i][j].second[k])) {
+
+                        cout << this->CC_graphs[i][j].second[k] << ' ';
+                    }
                 }
                 cout << endl;
             }
@@ -120,6 +124,7 @@ void Graph::write_CCs() {
 }
 
 void Graph::get_complex_ccs() {
+    this->complex_cc.clear();
     for (int i = 0; i < this->connected_components; ++i) {
         if (is_unicyclic(this->CC_graphs[i]) or is_tree(this->CC_graphs[i])) this->complex_cc.push_back(true);
         else this->complex_cc.push_back(false);
@@ -131,12 +136,14 @@ bool Graph::is_complex(int cc) {
 }
 
 void Graph::dfs_util(int v, vector<bool>& visited_dfs) {
+    //cout << "VISITING VERTEX: " << v << endl;
     if (exist_vertex(v)) {
         this->visited[v] = true;
         visited_dfs[v] = true;
 
         for (int u: this->graph[v]) {
-            if (not this->visited[u] and exist_edge(v,u)) {
+            //cout << "VISITING EDGE: " << u << endl;
+            if (exist_edge(v,u) and not this->visited[u]) {
                 dfs_util(u, visited_dfs);
             }
         }
@@ -230,6 +237,7 @@ bool Graph::is_unicyclic(const vector<pair<bool,vector<int> >>& CC_graph) {
     int cycle_n = 0;
     this->DFSCycle(CC_graph,root,-1,color,par,cycle_n);
 
+    //cout << "CYCLES FOUND: " << cycle_n << endl;
     return cycle_n == 1;
 }
 
@@ -259,7 +267,7 @@ bool Graph::exist_edge(int u, int v) {
 
         return indexVenU != -1 && indexUenV != -1;
     }
-    return this;
+    return false;
 }
 
 //O(1)
