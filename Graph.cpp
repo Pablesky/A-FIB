@@ -275,13 +275,13 @@ bool Graph::exist_vertex(int u) {
     return !(this->graph[u].size() == 1 && graph[u][0] == -1) && (u < this->graph.size() && u >= 0);
 }
 
-void Graph::writeOutput() {
-    cout << this->graph.size() << endl;
+void Graph::writeOutput(ofstream& myfile) {
+    myfile << this->graph.size() << endl;
     for (int i = 0, size = this->graph.size(); i < size; ++i) {
         for (int j = 0, size = this->graph[i].size(); j < size; ++j) {
-            cout << this->graph[i][j] << ' ';
+            myfile << this->graph[i][j] << ' ';
         }
-        cout << endl;
+        myfile << endl;
     }
 }
 

@@ -4,6 +4,7 @@
 #include <vector>
 #include <algorithm>
 #include <sstream>
+#include <fstream>
 #include "utilities.h"
 
 using namespace std;
@@ -32,7 +33,7 @@ public:
     void write();
     void write_CCs();
 
-    void writeOutput();
+    void writeOutput(ofstream& myfile);
     void readOutput();
 
     bool exist_edge(int u, int v);
