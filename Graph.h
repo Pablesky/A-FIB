@@ -43,13 +43,15 @@ private:
     int n, m;
     vector< vector<int> > graph;
     vector< vector< pair<bool,vector<int> > > > CC_graphs;
+    vector<int> degree_vertex;
     vector<bool> visited;
+    vector<bool> vertex_available;
     vector<bool> complex_cc;
     int connected_components;
 
     void dfs_util(int v, vector<bool>& visited_dfs);
     bool dfs_is_tree(int v, int parent, vector<bool>& visited_tree, const vector<pair<bool,vector<int> > >& CC_graph);
-    void DFSCycle(const vector<pair<bool,vector<int> >>& CC_graph, int u, int p, vector<int>& color,
+    void dfs_cycle(const vector<pair<bool,vector<int> >>& CC_graph, int u, int p, vector<int>& color,
                          vector<int>& par, int& cyclenumber);
 
     bool is_unicyclic(const vector<pair<bool,vector<int> >>& CC_graph);
