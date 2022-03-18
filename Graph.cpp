@@ -4,16 +4,20 @@ Graph::Graph() {
 }
 
 Graph::Graph(int n) {
-    this->graph = vector<vector<int> >(n);
+    this->graph = vector<vector<int> >(n, vector<int>(n,-1));
     this->visited = vector<bool>(n, false);
+    this->vertex_available = vector<bool>(n, true);
     this->n = n;
+    this->degree_vertex = vector<int>(n, 0);
     this->connected_components = 0;
 }
 
 Graph::Graph(const Graph& g) {
     this->graph = g.graph;
     this->visited = g.visited;
+    this->vertex_available = g.vertex_available;
     this->n = g.n;
+    this->degree_vertex = g.degree_vertex;
     this->connected_components = g.connected_components;
 }
 
@@ -38,16 +42,17 @@ void Graph::sortGraph() {
     }
 }
 
+// O(V^2+E)
 void Graph::get_connected_components() {
     this->visited = vector<bool>(this->n, false);
     this->CC_graphs.clear();
     this->connected_components = 0;
     for (int v = 0; v < this->n; ++v) {
+        int count = 0;
+
         if (exist_vertex(v) and not this->visited[v]) {
-            //cout << "GETTING " << v << " CC" << endl;
             vector<bool> visited_in_dfs(this->n, false);
             dfs_util(v, visited_in_dfs);
-            //cout << "CC calculation DONE" << endl;
 
             vector<pair<bool,vector<int> > > CC_graph(n);
 
@@ -62,6 +67,7 @@ void Graph::get_connected_components() {
 
             CC_graphs.push_back(CC_graph);
             ++connected_components;
+            cout << "CONNECTED COMPONENTS SO FAR: " << this->connected_components << endl;
         }
     }
 }
@@ -85,16 +91,20 @@ void Graph::read() {
 
 void Graph::add_edge(int v, int u) {
     if (exist_vertex(u) && exist_vertex(v) && !exist_edge(v, u)) {
-        this->graph[v].push_back(u);
+        this->graph[v][u] = u;
+        this->graph[u][v] = v;
+        ++degree_vertex[u];
+        ++degree_vertex[v];
     }
 }
 
+// O(V^2)
 void Graph::write() {
-    cout << "ORIGINAL GRAPH: " << endl;
+    cout << "GRAPH of size: " << n << endl;
     for (int i = 0; i < n; ++i) {
         cout << "VERTEX " << i << ": ";
-        for (int j = 0; j < this->graph[i].size(); ++j) {
-            if (exist_vertex(i) &&  exist_vertex(graph[i][j])) cout << this->graph[i][j] << ' ';
+        for (int j = 0; j < n; ++j) {
+            if (exist_edge(i,j)) cout << this->graph[i][j] << ' ';
         }
         cout << endl;
     }
@@ -102,7 +112,7 @@ void Graph::write() {
 }
 
 void Graph::write_CCs() {
-
+    cout << "CCS TOTAL: " << this->connected_components << endl;
     for (int i = 0; i < this->connected_components; ++i) {
         cout << "CC NUMBER: " << i << " " << endl;
 
@@ -135,6 +145,7 @@ bool Graph::is_complex(int cc) {
     return this->complex_cc[cc];
 }
 
+// O(V + E)
 void Graph::dfs_util(int v, vector<bool>& visited_dfs) {
     //cout << "VISITING VERTEX: " << v << endl;
     if (exist_vertex(v)) {
@@ -193,7 +204,7 @@ bool Graph::dfs_is_tree(int v, int parent, vector<bool>& visited_tree, const vec
     return true;
 }
 
-void Graph::DFSCycle(const vector<pair<bool,vector<int> >>& CC_graph, int u, int p, vector<int>& color,
+void Graph::dfs_cycle(const vector<pair<bool,vector<int> >>& CC_graph, int u, int p, vector<int>& color,
                      vector<int>& par, int& cyclenumber){
     if (exist_vertex(u)) {
         //the node is already considered
@@ -214,7 +225,7 @@ void Graph::DFSCycle(const vector<pair<bool,vector<int> >>& CC_graph, int u, int
         for (int v: CC_graph[u].second) {
             if (exist_edge(v, u)) {
                 if (v == par[u]) continue;
-                DFSCycle(CC_graph, v, u, color, par, cyclenumber);
+                dfs_cycle(CC_graph, v, u, color, par, cyclenumber);
             }
         }
 
@@ -235,7 +246,7 @@ bool Graph::is_unicyclic(const vector<pair<bool,vector<int> >>& CC_graph) {
     vector<int> color(this->n);
     vector<int> par(this->n);
     int cycle_n = 0;
-    this->DFSCycle(CC_graph,root,-1,color,par,cycle_n);
+    this->dfs_cycle(CC_graph,root,-1,color,par,cycle_n);
 
     //cout << "CYCLES FOUND: " << cycle_n << endl;
     return cycle_n == 1;
@@ -243,36 +254,30 @@ bool Graph::is_unicyclic(const vector<pair<bool,vector<int> >>& CC_graph) {
 
 //O(1)
 void Graph::delete_vertex(int u) {
-    if (exist_vertex(u)) this->graph[u] = vector<int>(1, -1);
+    if (exist_vertex(u)) this->vertex_available[u] = false;
 }
 
 //O(n)
 void Graph::delete_edge(int u, int v) {
     if (exist_vertex(u) && exist_vertex(v)) {
-        int indexVenU = binarySearch(this->graph[u], 0, this->graph[u].size() - 1, v);
-        int indexUenV = binarySearch(this->graph[v], 0, this->graph[v].size() - 1, u);
-
-        if (indexUenV != -1 && indexVenU != -1) {
-            this->graph[v][indexUenV] = -1;
-            this->graph[u][indexVenU] = -1;
-        }
+        this->graph[v][u] = -1;
+        this->graph[u][v] = -1;
+        --degree_vertex[u];
+        --degree_vertex[v];
+        if (degree_vertex[u] == 0) delete_vertex(u);
+        if (degree_vertex[v] == 0) delete_vertex(v);
     }
 }
 
-//O(n)
+//O(1)
 bool Graph::exist_edge(int u, int v) {
-    if (exist_vertex(u) && exist_vertex(v)) {
-        int indexVenU = binarySearch(this->graph[u], 0, this->graph[u].size() - 1, v);
-        int indexUenV = binarySearch(this->graph[v], 0, this->graph[v].size() - 1, u);
-
-        return indexVenU != -1 && indexUenV != -1;
-    }
-    return false;
+    return exist_vertex(u) and exist_vertex(v) and this->graph[u][v] != -1;
 }
 
 //O(1)
 bool Graph::exist_vertex(int u) {
-    return !(this->graph[u].size() == 1 && graph[u][0] == -1) && (u < this->graph.size() && u >= 0);
+    if (u == -1) return false;
+    return this->vertex_available[u];
 }
 
 void Graph::writeOutput(ofstream& myfile) {
@@ -290,6 +295,7 @@ void Graph::readOutput() {
     int num;
     getline(cin, str);
     for (int i = 0; i < n; ++i) {
+        cout << i << endl;
         if (getline(cin, str)) {
             istringstream sstr(str);
             int n;
@@ -298,5 +304,4 @@ void Graph::readOutput() {
             }
         }
     }
-
 }
