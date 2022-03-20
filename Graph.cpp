@@ -259,7 +259,7 @@ void Graph::delete_vertex(int u) {
 
 //O(n)
 void Graph::delete_edge(int u, int v) {
-    if (exist_vertex(u) && exist_vertex(v)) {
+    if (exist_vertex(u) && exist_vertex(v) && exist_edge(u, v)) {
         this->graph[v][u] = -1;
         this->graph[u][v] = -1;
         --degree_vertex[u];

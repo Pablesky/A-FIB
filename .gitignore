@@ -4,3 +4,7 @@ main
 *.
 binomial/
 geometric/
+mainResultsBinomial
+mainResultsGeometric
+mainResultsMeshAresta
+mainResultsMeshVertex
