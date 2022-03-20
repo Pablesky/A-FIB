@@ -51,11 +51,11 @@ Graph mesh_graph(int n) {
     int limite = n * n;
     Graph g(limite);
     int origen;
-    for (int i = 0; i < n - 1; ++i) {
+    for (int i = 0; i < n; ++i) {
         for (int j = 0; j < n; ++j) {
             origen = i + j * n;
-            g.add_edge(origen, origen + 1);
-
+            if (i != n - 1) g.add_edge(origen, origen + 1);
+            if (j != n - 1) g.add_edge(origen, origen + n);
         }
     }
 
