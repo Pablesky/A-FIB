@@ -1,4 +1,5 @@
 #include "binomial.hh"
+#include "utilities.h"
 using namespace std;
 
 // Pre: G is a non-void graph and p is between 0 and 1
@@ -6,7 +7,7 @@ Graph binomial_random_graph(int n, float p) {
     // Obtains the number of nodes
     Graph G2(n);            // Creates a graph with n nodes
     for (int i = 0; i < n; i++) {
-        for (int j = 0; j < n; j++) {
+        for (int j = i + 1; j < n; j++) {
             // For each edge obtain a random number between 0 and 1
             // if this random number is lower o equal than the
             // probability setted then the edge is added to 
@@ -14,7 +15,7 @@ Graph binomial_random_graph(int n, float p) {
             float r = (float) rand() / RAND_MAX;
             if ((i != j) && (r <= p)) {
                 G2.add_edge(i, j);
-                G2.add_edge(j, i);
+                //G2.add_edge(j, i);
             }
         }
     }
@@ -37,11 +38,26 @@ Graph random_geometric_graph(int n, float r) {
 
             if (dist <= r) {
                 G2.add_edge(i, it->first);
-                G2.add_edge(it->first, i);
+                //G2.add_edge(it->first, i);
             }
         }
 
         data.insert(pair<int, pair<float, float> > (i, pair<float, float>(x, y)));
     }
     return G2;
+}
+
+Graph mesh_graph(int n) {
+    int limite = n * n;
+    Graph g(limite);
+    int origen;
+    for (int i = 0; i < n - 1; ++i) {
+        for (int j = 0; j < n; ++j) {
+            origen = i + j * n;
+            g.add_edge(origen, origen + 1);
+
+        }
+    }
+
+    return g;
 }

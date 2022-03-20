@@ -67,7 +67,7 @@ void Graph::get_connected_components() {
 
             CC_graphs.push_back(CC_graph);
             ++connected_components;
-            cout << "CONNECTED COMPONENTS SO FAR: " << this->connected_components << endl;
+            //cout << "CONNECTED COMPONENTS SO FAR: " << this->connected_components << endl;
         }
     }
 }

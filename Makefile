@@ -1,10 +1,8 @@
-binomial:
+all:
 	g++ -c *.cpp
-	g++ -o binomialGraphGenerator generatorBinomialGraph.o binomial.o Graph.o percolation.o utilities.o 
-
-geometric:
-	g++ -c *.cpp
-	g++ -o geometricGraphGenerator generatorBinomialGraph.o binomial.o Graph.o percolation.o utilities.o  
+	g++ -o mainResultsBinomial mainResultsBinomial.o Graph.o percolation.o utilities.o binomial.o
+	g++ -o mainResultsGeometric mainResultsGeometric.o Graph.o percolation.o utilities.o binomial.o
+	g++ -o mainResultsMesh mainResultsMesh.o Graph.o percolation.o utilities.o binomial.o
 
 clean:
-	rm *.o geometricGraphGenerator binomialGraphGenerator
+	rm *.o  mainResultsBinomial mainResultsGeometric

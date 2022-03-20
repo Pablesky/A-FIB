@@ -20,3 +20,5 @@ Graph binomial_random_graph(int n, float p);
  * @return Grafo despues de haber aplicado el criterio de distancia entre nodos para establecer si hay arista o no.
  */
 Graph random_geometric_graph(int n, float r);
+
+Graph mesh_graph(int n);
