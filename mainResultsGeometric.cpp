@@ -28,6 +28,8 @@ int main() {
         cout << (i * ESCALADO) << ',';
     }
 
+    cout << endl;
+
     vector<float> conectividad(PROBABILIDADES, 0);
     vector<float> complejidad(PROBABILIDADES, 0);
 
