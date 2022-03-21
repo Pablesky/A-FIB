@@ -39,6 +39,8 @@ public:
     bool exist_edge(int u, int v);
     bool exist_vertex(int u);
     
+    int getNumberComplex();
+    
 private:
     int n, m;
     vector< vector<int> > graph;
@@ -48,6 +50,7 @@ private:
     vector<bool> vertex_available;
     vector<bool> complex_cc;
     int connected_components;
+    int complex_components;
 
     void dfs_util(int v, vector<bool>& visited_dfs);
     bool dfs_is_tree(int v, int parent, vector<bool>& visited_tree, const vector<pair<bool,vector<int> > >& CC_graph);

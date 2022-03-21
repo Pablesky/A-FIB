@@ -30,21 +30,40 @@ int main() {
 
     cout << endl;
 
+    vector<float> conectividad(PROBABILIDADES, 0);
+    vector<float> complejidad(PROBABILIDADES, 0);
+
     Graph g = mesh_graph(NODOS), percolated;
-    int conexo, noConexo;
+    int conexo, noConexo, complejas, noComplejas;
     float prob;
     for (int i = 0; i < PROBABILIDADES; ++i) {
         prob = i * ESCALADO;
         conexo = 0;
         noConexo = 0;
+        complejas = 0;
+        noComplejas = 0;
         for (int j = 0; j < N_GRAFOS; ++j) {
             percolated = percolationAresta(g, prob);
             percolated.get_connected_components();
             if (percolated.num_cc() == 1) ++conexo;
             else ++noConexo;
+            
+            if (percolated.num_cc() == percolated.getNumberComplex()) ++complejas;
+            else ++noComplejas;
         }
 
-        cout << float(conexo)/float(noConexo + conexo) << ',';
+        conectividad[i] = float(conexo) / float(conexo + noConexo);
+        complejidad[i] = float(complejas) /float(complejas + noComplejas);
+    }
+
+    for (int i = 0; i < PROBABILIDADES; ++i) {
+        cout << conectividad[i] << ',';
+    }
+
+    cout << endl;
+
+    for (int i = 0; i < PROBABILIDADES; ++i) {
+        cout << complejidad[i] << ',';
     }
 
     cout << endl;

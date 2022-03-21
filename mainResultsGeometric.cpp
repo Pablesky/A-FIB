@@ -28,23 +28,41 @@ int main() {
         cout << (i * ESCALADO) << ',';
     }
 
-    cout << endl;
+    vector<float> conectividad(PROBABILIDADES, 0);
+    vector<float> complejidad(PROBABILIDADES, 0);
 
     Graph g;
-    int conexo, noConexo;
+    int conexo, noConexo, complejas, noComplejas;
     float prob;
     for (int i = 0; i < PROBABILIDADES; ++i) {
         prob = i * ESCALADO;
         conexo = 0;
         noConexo = 0;
+        complejas = 0;
+        noComplejas = 0;
         for (int j = 0; j < N_GRAFOS; ++j) {
             g = random_geometric_graph(NODOS, prob);
             g.get_connected_components();
+            g.get_complex_ccs();
             if (g.num_cc() == 1) ++conexo;
             else ++noConexo;
+            
+            if (g.num_cc() == g.getNumberComplex()) ++complejas;
+            else ++noComplejas;
         }
 
-        cout << float(conexo)/float(noConexo + conexo) << ',';
+        conectividad[i] = float(conexo) / float(conexo + noConexo);
+        complejidad[i] = float(complejas) /float(complejas + noComplejas);
+    }
+
+    for (int i = 0; i < PROBABILIDADES; ++i) {
+        cout << conectividad[i] << ',';
+    }
+
+    cout << endl;
+
+    for (int i = 0; i < PROBABILIDADES; ++i) {
+        cout << complejidad[i] << ',';
     }
 
     cout << endl;

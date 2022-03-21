@@ -10,6 +10,7 @@ Graph::Graph(int n) {
     this->n = n;
     this->degree_vertex = vector<int>(n, 0);
     this->connected_components = 0;
+    this->complex_components = -1;
 }
 
 Graph::Graph(const Graph& g) {
@@ -19,6 +20,7 @@ Graph::Graph(const Graph& g) {
     this->n = g.n;
     this->degree_vertex = g.degree_vertex;
     this->connected_components = g.connected_components;
+    this->complex_components = g.complex_components;
 }
 
 Graph::~Graph(){
@@ -135,8 +137,12 @@ void Graph::write_CCs() {
 
 void Graph::get_complex_ccs() {
     this->complex_cc.clear();
+    complex_components = 0;
     for (int i = 0; i < this->connected_components; ++i) {
-        if (is_unicyclic(this->CC_graphs[i]) or is_tree(this->CC_graphs[i])) this->complex_cc.push_back(true);
+        if (is_unicyclic(this->CC_graphs[i]) or is_tree(this->CC_graphs[i])) {
+            this->complex_cc.push_back(true);
+            ++complex_components;
+        }
         else this->complex_cc.push_back(false);
     }
 }
@@ -304,4 +310,8 @@ void Graph::readOutput() {
             }
         }
     }
+}
+
+int Graph::getNumberComplex() {
+    return this->complex_components;
 }
