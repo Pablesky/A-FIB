@@ -11,13 +11,13 @@ int main() {
     int NODOS, N_GRAFOS, PROBABILIDADES;
     float ESCALADO;
 
-    cout << "Introduce nodos: " << endl;
+    cout << "Introduce numero de nodos: " << endl;
     cin >> NODOS;
 
-    cout << "Introduce probabilidad binomial/geometric: " << endl;
+    cout << "Introduce la probabilidad cada cuanto quieres obtener los datos: " << endl;
     cin >> ESCALADO;
 
-    cout << "Numero de grafos por probabilidad: " << endl;
+    cout << "Numero de grafos por recoleccion de datos: " << endl;
     cin >>  N_GRAFOS;
 
     PROBABILIDADES = int(1.0/ESCALADO) + 1;
