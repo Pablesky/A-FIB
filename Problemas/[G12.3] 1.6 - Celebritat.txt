@@ -1,0 +1,33 @@
+int n;
+Matrix M[n][n];
+vector<bool> C(n, True);
+int i = 0;
+int j = 0;
+
+
+//Recorrem els elements necesaris de la matriu eliminant els vertexs que no poden ser celebritats, com a molt en quedara un
+
+while(i<n and j<n){
+    if(M[i][j]==0){
+    	C[j] = False;
+        ++j;
+    }else if(i!=j){
+    	C[i] = False;
+        ++i;
+    }else{
+        ++i;
+    }
+    
+    
+//Si tots els elements de C son False no hi ha cap celebritat, en cas que n'hi hagi un a True comprovem si és realment celebritat
+
+int k = 0;
+while(k<n and not C[k]) ++k;
+bool Celeb = True;
+for(int h = 0; h<n and Celeb; ++h){
+    Celeb = M[h][k]==1;
+    if(h!=k and Celeb) Celeb = M[k][h]==0;
+}
+}
+
+//Si Celeb es True el vertex celebritat es el k, si es False no n'hi ha
